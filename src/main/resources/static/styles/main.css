@@ -1,0 +1,554 @@
+
+body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+    font-family: Arial, sans-serif;
+    box-sizing: border-box;   /*dodane*/
+}
+.main {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    height: calc(100vh - 60px); /* Zwiększenie wysokości */
+    width: calc(100vw - 100px); /* Zwiększenie szerokości */
+    margin: 30px 50px; /* Zmniejszenie marginesów */
+    gap: 10px;
+    box-sizing: border-box; /*dodano*/
+}
+.container {
+    flex: 1;
+    height: 100%;
+    perspective: 1000px;
+    box-sizing: border-box;  /*dodano*/
+}
+
+.card {
+    width: 100%;
+    height: 100%;
+    border-radius: 15px;
+    overflow: hidden;
+    position: relative;
+    transform-style: preserve-3d;
+    transition: transform 2s, background-color 1s;
+    background-color: white; /* Domyślny kolor tła */
+    box-sizing: border-box;
+}
+.form-container {
+    display: none;
+}
+.form-container.active {
+    display: flex; /* Pokaż formularz przed obróceniem */
+    flex-direction: column;
+    position: absolute;
+    align-items: center;
+    justify-content: center;
+    background: none;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 10px 10px 10px 10px;
+    border-radius: 10px;
+    border: 2px solid rgba(255, 255, 255, 0.5);
+    z-index: 10;
+    opacity: 1;
+    width:350px;
+    height: 250px;
+    box-sizing: border-box; /*dodano*/
+
+}
+.form-container input {
+    align-items: center;
+    justify-content: center;
+    margin: 10px 10px 10px 10px;
+    padding: 10px;
+    width: 25%;
+    border: 2px solid #ddd;
+    border-radius: 5px;
+    box-sizing: border-box;
+    text-align: center;
+}
+.form-container button {
+    display: flex;
+    margin: 10px 0;
+    padding: 10px;
+    width: 100%;
+    color: black;
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    cursor: pointer;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+}
+.form-container label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+    color: #2980b9;
+}
+
+.form-container select {
+    width: 100%; /* Ustawia szerokość selektora na 100% kontenera */
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box; /* Upewnia się, że padding jest wliczony w szerokość */
+    font-size: 14px;
+    white-space:normal;
+    text-align: center;
+    text-align-last: center;
+}
+
+.form-container option {
+    white-space: normal; /* Pozwala na zawijanie tekstu */
+    padding: 8px;
+    text-align: left;
+}
+.form-container h2{
+    color:white;
+}
+video {
+    width: 100%;
+    height: 100%;
+    border-radius: 15px;
+    cursor: pointer;
+    object-fit: cover;
+}
+.woman-video{
+    object-position: left center;
+}
+.overlay {
+    position: absolute;
+    top: 10%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    font-size: 2rem;
+    font-weight: bold;
+    opacity: 0.7;
+    pointer-events: none;
+}
+.overlay.woman {
+    font-size: 2.8rem;
+    color: rgba(3, 33, 57, 0.7);
+
+}
+.overlay.man {
+    font-size: 2.8rem;
+    color: rgba(255, 153, 51, 0.7);
+}
+.form-container button:hover {
+    background-color: #218838;
+}
+
+.card.flipped  {
+    transform: rotateY(180deg);
+    background-size: cover; /* Dopasuj obraz do rozmiaru karty */
+    background-position: center; /* Wyśrodkuj obraz */
+}
+.result-container.active{
+    /*display: flex;*/
+    flex-direction: column;
+    justify-content: space-between; /* Sprawia, że przyciski są na dole */
+    width: 100%;
+    height: 100%;
+    border-radius: 15px;
+    overflow: hidden;
+    position: relative;
+    transform-style: preserve-3d;
+    transition: transform 2s, background-color 1s;
+    background-image: url("../img/coffee.jpg");
+    background-position: center -50px;
+    font-size: 1rem;
+    text-align: center;
+    text-orientation: revert;
+    transform: scaleX(-1);
+    display: inline-block;
+}
+.recipes-container{
+    flex-grow: 1;
+    overflow-y:auto;
+    max-height: calc(100% - 200px); /* Odejmij wysokość kontenera przycisków od całkowitej wysokości */
+    font-size: 0.9rem;
+    color:white;
+    box-sizing: border-box; /*dodano*/
+    padding-bottom: 100px;
+}
+.button-container-man, .button-container-woman{
+    display: none;
+    flex-direction: column;
+    position: absolute;
+    bottom: 0; /* Ustawia kontener przycisków na samym dole karty */
+    left: 0;
+    right: 0;
+    height: 100px; /* Ustaw stałą wysokość kontenera */
+    box-sizing: border-box;
+    text-align:center;
+    justify-content: center;
+    align-items: center;
+    z-index: 10;
+}
+.randomize-menu{
+    display: none;
+    flex-direction: column;
+    z-index: 1000; /* Zapewnia, że przyciski będą na wierzchu */ /*dodano*/
+    align-items: center;
+    text-align: center;
+    margin: 10px auto; /* Dodaj margines, aby odstęp od innych elementów */
+    padding: 10px 15px;
+    font-size: 1rem;
+    color: white;
+    background-color: #3498db;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    box-sizing: border-box;
+}
+.powrot {
+    display: none; /* Ukryj przycisk domyślnie */
+    flex-direction: column;
+    z-index: 1000; /* Zapewnia, że przyciski będą na wierzchu */ /*dodano*/
+    text-align: center;
+    align-items: center;
+    margin: 10px auto; /* Dodaj margines, aby odstęp od innych elementów */
+    padding: 5px;
+    width: 10%;
+    color: black;
+    background-color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    cursor: pointer;
+    box-sizing: border-box;
+}
+.randomize-menu:hover {
+    background-color: #2980b9;
+}
+.chart-container {
+    position: absolute;
+    top: 20%;
+    left: 50%;
+    transform: translate(-50%, 0);
+    width: 90%;
+    height: 80%;
+    z-index: 5;
+    display: none;
+
+}
+.chart-container img {
+    width: 100%; /* Dopasuj szerokość obrazka do kontenera */
+    height: auto; /* Utrzymuj proporcje obrazka */
+}
+.loading-spinner {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    z-index: 10;
+    display: none; /* Ukryj domyślnie */
+}
+
+.spinner {
+    border: 16px solid #f3f3f3;
+    border-top: 16px solid #3498db;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    animation: spin 5s linear infinite;
+    margin: 0 auto; /* Wycentrowanie poziome */
+}
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+@keyframes dot-blink {
+    0%, 20% {
+        color: rgba(0, 0, 0, 0);
+        text-shadow: .25em 0 0 rgba(0, 0, 0, 0), .5em 0 0 rgba(0, 0, 0, 0);
+    }
+    40% {
+        color: black;
+        text-shadow: .25em 0 0 rgba(0, 0, 0, 0), .5em 0 0 rgba(0, 0, 0, 0);
+    }
+    60% {
+        text-shadow: .25em 0 0 black, .5em 0 0 rgba(0, 0, 0, 0);
+    }
+    80%, 100% {
+        text-shadow: .25em 0 0 black, .5em 0 0 black;
+    }
+}
+.dots {
+    display: inline-block;
+    animation: dot-blink 1.5s steps(5, end) infinite;
+}
+.informacje-woman, .informacje-man {
+    display:none;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    padding: 10px;
+    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+    box-sizing: border-box;
+    font-size: 0.8rem;
+    color:white;
+}
+.card.active .informacje-man,
+.card.active .informacje-woman {
+    display: none;
+}
+.warning-man, .warning-woman{
+    display: block;
+    box-sizing:border-box;
+    color:darkred;
+    font-size: 0.8rem;
+}
+.scroll-button {
+    display: none; /* Pokaż na urządzeniach mobilnych */
+    /*background-color: #2980b9;*/
+}
+.result-values {
+    display: flex;
+    justify-content: flex-start;
+    flex-direction: column; /* Ensure that span elements are in one line */
+}
+.result-values span {
+    display: block; /* Ensure that span elements are in one line */
+}
+.result p {
+    margin: 10px;
+    padding: 0;
+    font-size: 0.8rem;
+    font-weight: bold;
+}
+.recipes-container::-webkit-scrollbar {
+    width: 10px; /* Szerokość scrollbara */
+}
+
+.recipes-container::-webkit-scrollbar-thumb {
+    background-color: #3498db; /* Kolor thumb (części przewijającej) */
+    border-radius: 10px; /* Zaokrąglone rogi thumb */
+}
+
+.recipes-container::-webkit-scrollbar-track {
+    background-color: #f3f3f3; /* Kolor tła scrollbara */
+}
+
+
+@media (max-width: 768px) {
+    body, html {
+        overflow: auto; /* Umożliw przewijanie strony */
+    }
+    .main {
+        flex-direction: column; /* Zmieniamy kierunek osi głównej na kolumnowy */
+        height: auto; /* Pozwalamy, aby wysokość była automatyczna */
+        width: 100%; /* Ustawiamy szerokość na 100% */
+        margin: 0; /* Usuwamy marginesy */
+        overflow-y: auto; /* Dodajemy przewijanie w pionie */
+        padding-top: 20px; /* Dodajemy odstęp od góry */
+    }
+    .container {
+        width: 100%;
+        height: auto; /* Ustawiamy wysokość kontenera na auto */
+        display: flex;
+        justify-content: center;
+        align-items: flex-start; /* Wyrównanie elementów do góry */
+        box-sizing: border-box; /* Upewniamy się, że padding jest wliczony w szerokość */
+    }
+    .card {
+        width: 90%; /* Ustawiamy szerokość karty na 90% */
+        height: 90vh; /* Ustawiamy wysokość karty na 90% widoku */
+        box-sizing: border-box; /* Upewniamy się, że padding jest wliczony w szerokość */
+        margin-bottom: 5vh; /* Dodajemy odstęp między kartami */
+    }
+    .result-container.active {
+        background-position: center; /* Wyśrodkowanie tła */
+    }
+    .result {
+        overflow: hidden;
+    }
+    .result p {
+        font-size: 0.7rem;
+        display:flex;
+        font-weight: bold;
+        margin:10px 5px 2px 0;
+    }
+    .recipes-container {
+        flex-grow:1;
+        overflow-y: auto; /* Umożliwia przewijanie w pionie */
+        padding-right: 15px; /* Dodaje odstęp po prawej stronie na scrollbar */
+        box-sizing: border-box;
+    }
+    .recipes-container::-webkit-scrollbar {
+        width: 8px; /* Szerokość scrollbara */
+    }
+
+    .recipes-container::-webkit-scrollbar-thumb {
+        background-color: #3498db; /* Kolor thumb (części przewijającej) */
+        border-radius: 10px; /* Zaokrąglone rogi thumb */
+    }
+
+    .recipes-container::-webkit-scrollbar-track {
+        background-color: #f3f3f3; /* Kolor tła scrollbara */
+    }
+    .informacje-woman, .informacje-man {
+        display: none; /* Upewnij się, że sekcja jest widoczna */
+        position: absolute; /* Zmienione na relative */
+        bottom: 0;
+        width: 100%;
+        padding: 10px 5px; /* Zmniejsz padding dla lepszego dopasowania */
+        box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+        box-sizing: border-box;
+        font-size: 0.7rem; /* Zmniejsz rozmiar czcionki */
+        color: white;
+        line-height: 1.2; /* Zmniejsz odstępy między liniami */
+        text-align: justify; /* Wyrównanie tekstu */
+    }
+
+    .informacje-woman p, .informacje-man p {
+        margin: 5px 0; /* Dodaj trochę marginesu między akapitami */
+        font-size: 0.7rem;
+    }
+    .warning-woman, .warning-man {
+        display: block;
+        margin: 5px 0;
+        text-align: center;
+        font-size: 0.6rem;
+    }
+    .scroll-button {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 10px 0;
+        padding: 10px;
+        width: 100%;
+        color: white;
+        background-color: #3498db;
+        border: none;
+        border-radius: 5px;
+        font-size: 1rem;
+        cursor: pointer;
+    }
+    .scroll-button:hover {
+        background-color: #2980b9;
+    }
+    .powrot {
+        display: none;
+        z-index: 1000;
+        text-align: center;
+        margin: 10px auto;
+        padding: 10px;
+        width: 25%;
+        color: black;
+        background-color: white;
+        border: none;
+        border-radius: 5px;
+        font-size: 1rem;
+        cursor: pointer;
+    }
+    .powrot.show {
+        display: block; /* Pokaż przycisk, gdy ma klasę 'show' */
+    }
+    .form-container.active{
+        display: flex; /* Ustaw kontener jako flexbox */
+        flex-direction: column; /* Ustaw kolumnowy układ dla wewnętrznych elementów */
+        justify-content: center; /* Wyśrodkuj elementy pionowo */
+        align-items: center; /* Wyśrodkuj elementy poziomo */
+        height: 50%; /* Pełna wysokość kontenera */
+        width: 100%; /* Pełna szerokość kontenera */
+        padding: 10px; /* Dodaj padding, aby elementy nie dotykały brzegów kontenera */
+        box-sizing: border-box;
+    }
+    .form-container input{
+        width: 100%; /* Ustaw szerokość na 80% kontenera */
+        margin: 0 0 0 0;
+        font-size: 1rem; /* Ustaw rozmiar czcionki */
+        padding: 3px 0 3px 0;
+        box-sizing: border-box; /* Upewnij się, że padding jest wliczony w szerokość */
+        text-align: center;
+    }
+    .form-container select{
+        width: 100%; /* Ustaw szerokość na 80% kontenera */
+        margin: 0 0 0 0;
+        font-size: 1rem; /* Ustaw rozmiar czcionki */
+        padding: 4px 0 4px 0;
+        box-sizing: border-box; /* Upewnij się, że padding jest wliczony w szerokość */
+        text-align: center;
+    }
+    .form-container button {
+        width: 100%; /* Ustaw szerokość przycisku na 100% */
+        font-size: 1.2rem; /* Ustaw rozmiar czcionki */
+        padding: 10px 0; /* Ustaw padding góra/dół */
+        box-sizing: border-box;
+        margin: 5px 0 0 0;
+        text-align: center; /* Wyśrodkuj tekst poziomo */
+        line-height: 1.2rem; /* Dopasowanie wysokości linii do czcionki */
+        display: flex; /* Użycie flexbox do centrowania */
+        justify-content: center; /* Wyśrodkuj treść poziomo */
+        align-items: center; /* Wyśrodkuj treść pionowo */
+    }
+    .form-container h2{
+        padding-bottom: 1px;
+        margin: 0 0 0 0;
+    }
+    .chart-container {
+        position: absolute;
+        top: 25%;
+        left:50%;
+        transform: translate(-50%, 0);
+        width:100%;
+        height:240%;
+        z-index: 5;
+        display: none;
+        margin: -2px 0 2px 0; /* Mniejsze marginesy wokół kontenera */
+    }
+    .chart-container h4 {
+        margin: 0; /* Usuń marginesy wokół tytułu */
+        padding-bottom: 1px; /* Drobny odstęp pod tytułem */
+        font-size: 0.6em; /* Dostosuj rozmiar czcionki tytułu na mobilnych */
+    }
+    .chart-container p {
+        margin: 0; /* Usuń górny margines, minimalny margines dolny */
+        font-size: 0.6em; /* Zmniejsz rozmiar czcionki źródła na mobilnych */
+        padding-top: 2px; /* Dodaj drobny odstęp nad źródłem */
+    }
+    .button-container-man, .button-container-woman{
+        display: flex;
+        position: absolute;
+        bottom: 0; /* Ustawia kontener przycisków na samym dole karty */
+        left: 0;
+        right: 0;
+        flex-direction: column;
+        height: 110px; /* Ustaw stałą wysokość kontenera */
+    }
+    .randomize-menu{
+        margin: 10px auto;
+        padding: 10px 20px;
+    }
+    .card.flipped .warning-woman {
+        display: none;
+    }
+    .card.flipped .warning-man {
+        display: none;
+    }
+    /* Wyświetl warning na przeciwnej karcie */
+    #card-woman.flipped ~ #card-man .warning-man {
+        display: block;
+    }
+    #card-man.flipped ~ #card-woman .warning-woman {
+        display: block;
+    }
+    #card-woman, #card-man{
+        position:relative;
+    }
+
+    #result, #chart-container {
+        flex: 1 1 100%; /* Oba kontenery zajmują pełną szerokość rodzica */
+        margin: 5px 0; /* Dostosuj marginesy */
+    }
+}

@@ -1,0 +1,132 @@
+
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kalkulator BMI</title>
+    <link rel="stylesheet" href="/styles/main.css">
+</head>
+<body>
+<div class="main">
+    <div class="container">
+        <div class="card woman" id="card-woman">
+            <video class = "woman-video" src="/movie/woman.mp4" muted loop data-target="woman-form"></video>
+            <div class="overlay woman">Kobieta</div>
+            <div class="form-container " id="woman-form">
+                <h2>Wprowadź dane</h2>
+                <form onsubmit="return handleSubmit(event, 'woman')">
+                    <input type="number" name="age" placeholder="Wiek" id="age-woman" min="18" max="100">
+                    <input type="number" name="height" placeholder="Wzrost (cm)" id="height-woman" min="140" max="215">
+                    <input type="number" name="weight" placeholder="Waga (kg)" id="weight-woman" min="45" max="140">
+                    <label for="activity-level-woman"></label>
+                    <select name="activity-level" id="activity-level-woman">
+                        <option value="" disabled selected>Wybierz swój poziom aktywności</option>
+                        <option value="1.2" data-text="Minimalna aktywność, pacjenci hospitalizowani, starsze osoby ograniczone ruchowo.">1.2: Minimalna aktywność, pacjenci, osoby ograniczone ruchowo</option>
+                        <option value="1.35" data-text="Niska aktywność, praca biurowa, mało ruchu, sporadyczne spacery.">1.3-1.4: Niska aktywność, praca biurowa, mało ruchu.</option>
+                        <option value="1.55" data-text="Umiarkowana aktywność, praca siedząca, lekkie ćwiczenia kilka razy w tygodniu.">1.5-1.6: Umiarkowana aktywność, praca siedząca, lekkie ćwiczenia.</option>
+                        <option value="1.75" data-text="Wysoka aktywność, praca fizyczna, intensywne treningi.">1.7-1.8: Wysoka aktywność, praca fizyczna, intensywne treningi.</option>
+                        <option value="1.95" data-text="Bardzo wysoka aktywność, sportowcy amatorzy, sport wyczynowy.">1.9-2.0: Bardzo wysoka aktywność, sportowcy amatorzy.</option>
+                        <option value="2.25" data-text="Zawodowi sportowcy, bardzo wysoka aktywność fizyczna.">2.1-2.4: Zawodowi sportowcy, bardzo intensywne treningi.</option>
+                    </select>
+
+                    <button type="submit">Oblicz wskaźniki PPM, CPM i BMI</button>
+                </form>
+                </div>
+            <div class="result-container" id="result-woman" >
+                <p class ="warning-woman">UWAGA! Informacje zawarte na tej stronie mają charakter informacyjny i edukacyjny.
+                    Autor strony nie ponosi żadnej odpowiedzialności za jakiekolwiek skutki wynikające z wykorzystania informacji zamieszczonych na stronie.
+                    Kalkulacje PPM, CPM i BMI oraz proponowane diety nie zastępują profesjonalnej porady dietetyka lub lekarza.
+                    Przed wprowadzeniem jakichkolwiek zmian w diecie lub stylu życia, zaleca się konsultację z odpowiednim specjalistą.</p>
+                <div class ="result">
+                <p id="result-text-woman">Twój wskaźnik PPM wynosi: <span id="ppm-value-woman"></span><span>(kcal/dzień)</span></p>
+                <p id="result-cpm-woman">Twój wskaźnik CPM wynosi: <span id="cpm-value-woman"></span><span>(kcal/dzień)</span></p>
+                <p id="result-bmi-woman">Twój wskaźnik BMI wynosi: <span id="bmi-value-woman"></span><span>(kg/m²)</span></p>
+                </div>
+                <div id="recipes-content-woman" class = "recipes-container"></div>
+                <div class = "button-container-woman">
+                <button onclick="randomizeMenu('woman')" class="randomize-menu" id="randomize-woman">Losuj inny jadłospis</button>
+                <button onclick="resetCards()" class = "powrot" id="powrot-woman">Powrót</button>
+                </div>
+                <div class="chart-container" id="chart-woman">
+                    <h4>Klasyfikacja masy ciała osób dorosłych na podstawie BMI</h4>
+                    <img src="/img/bmi.PNG" alt="Wykres">
+                    <p>Źródło: <a href="https://pl.wikipedia.org/wiki/Wska%C5%BAnik_masy_cia%C5%82a" target="_blank">https://pl.wikipedia.org/wiki/Wskaźnik_masy_ciala</a></p>
+                    <button onclick="scrollToCard('woman')" class="scroll-button">Sprawdź swoją dietę</button>
+                </div>
+                <div id="loading-spinner-woman" class="loading-spinner">
+                    <div class="spinner"></div>
+                    <p>Układanie jadłospisu na dzisiejszy dzień</p>
+                    <p>Proszę czekać<span class="dots">...</span></p>
+                </div>
+                <div class ="informacje-woman" id = "info-woman">
+                    <p>PPM, czyli podstawowa przemiana materii, to wskaźnik, który pozwala określić ilość energii niezbędną do podtrzymania podstawowych funkcji życiowych organizmu w stanie spoczynku i w optymalnych warunkach otoczenia, wyrażona w (kcal/dzień).</p>
+                    <p>CPM, czyli całkowita przmiana materii,To suma wszystkich wydatków energetycznych człowieka w ciągu doby przy uwzględnieniu aktywności fizycznej, wyrażona w (kcal/dzień). </p>
+                    <p>BMI, czyli wskaźnik masy ciała, jest miarą używaną do określenia, czy masa ciała danej osoby jest odpowiednia w stosunku do jej wzrostu. BMI oblicza się, dzieląc masę ciała (w kilogramach) przez kwadrat wzrostu (w metrach).</p>
+                </div>
+            </div>
+          </div>
+        </div>
+    <div class="container">
+        <div class="card man" id="card-man">
+            <video class ="man-video" src="/movie/man.mp4" muted loop data-target="man-form" ></video>
+            <div class="overlay man">Mężczyzna</div>
+            <div class="form-container" id="man-form">
+                <h2>Wprowadź dane</h2>
+                <form onsubmit="return handleSubmit(event, 'man')">
+                    <input type="number" name="age" placeholder="Wiek" id="age-man" min="18" max="100">
+                    <input type="number" name="height" placeholder="Wzrost (cm)" id="height-man" min="140" max="215">
+                    <input type="number" name="weight" placeholder="Waga (kg)" id="weight-man" min="45" max="140">
+                    <label for="activity-level-man"></label>
+                    <select name="activity-level" id="activity-level-man">
+                        <option value="" disabled selected>Wybierz swój poziom aktywności</option>
+                        <option value="1.2" data-text="Minimalna aktywność, pacjenci hospitalizowani, starsze osoby z ograniczoną mobilnością.">1.2: Minimalna aktywność, pacjenci, osoby ograniczone ruchowo</option>
+                        <option value="1.35" data-text="Niska aktywność, praca biurowa, mało ruchu, sporadyczne spacery.">1.3-1.4: Niska aktywność, praca biurowa, mało ruchu.</option>
+                        <option value="1.55" data-text="Umiarkowana aktywność, praca siedząca, lekkie ćwiczenia kilka razy w tygodniu.">1.5-1.6: Umiarkowana aktywność, praca siedząca, lekkie ćwiczenia.</option>
+                        <option value="1.75" data-text="Wysoka aktywność, praca fizyczna, intensywne treningi.">1.7-1.8: Wysoka aktywność, praca fizyczna, intensywne treningi.</option>
+                        <option value="1.95" data-text="Bardzo wysoka aktywność, sportowcy amatorzy, sport wyczynowy.">1.9-2.0: Bardzo wysoka aktywność, sportowcy amatorzy.</option>
+                        <option value="2.25" data-text="Zawodowi sportowcy, bardzo wysoka aktywność fizyczna.">2.1-2.4: Zawodowi sportowcy, bardzo intensywne treningi.</option>
+                    </select>
+                    <button type="submit" >Oblicz wskaźniki PPM, CPM i BMI</button>
+                </form>
+            </div>
+            <div class="result-container" id="result-man" >
+                <p class="warning-man">UWAGA! Informacje zawarte na tej stronie mają charakter informacyjny i edukacyjny.
+                    Autor strony nie ponosi żadnej odpowiedzialności za jakiekolwiek skutki wynikające z wykorzystania informacji zamieszczonych na stronie.
+                    Kalkulacje PPM, CPM i BMI oraz proponowane diety nie zastępują profesjonalnej porady dietetyka lub lekarza.
+                    Przed wprowadzeniem jakichkolwiek zmian w diecie lub stylu życia, zaleca się konsultację z odpowiednim specjalistą.</p>
+                <div class="result">
+                <p id="result-text-man">Twój wskaźnik PPM wynosi: <span id="ppm-value-man"></span><span>(kcal/dzień)</span> </p>
+                <p id="result-cpm-man">Twój wskaźnik CPM wynosi: <span id="cpm-value-man"></span> <span>(kcal/dzień)</span></p>
+                <p id="result-bmi-man">Twój wskaźnik BMI wynosi: <span id="bmi-value-man"></span> <span>(kg/m²)</span></p>
+                </div>
+                <div id="recipes-content-man"  class = "recipes-container"></div>
+                <div class="button-container-man">
+                <button onclick="randomizeMenu('man')" class="randomize-menu" id="randomize-man" >Losuj inny jadłospis</button>
+                <button onclick="resetCards()" class = "powrot" id="powrot-man">Powrót</button>
+                </div>
+                <div class="chart-container" id="chart-man">
+                    <h4>Klasyfikacja masy ciała osób dorosłych na podstawie BMI</h4>
+                    <img src="/img/bmi.PNG" alt="Wykres">
+                    <p>Źródło: <a href="https://pl.wikipedia.org/wiki/Wska%C5%BAnik_masy_cia%C5%82a" target="_blank">https://pl.wikipedia.org/wiki/Wskaźnik_masy_ciala</a></p>
+                    <button onclick="scrollToCard('man')" class="scroll-button">Sprawdź swoją dietę</button>
+                </div>
+                <div id="loading-spinner-man" class="loading-spinner">
+                    <div class="spinner"></div>
+                    <p>Układanie jadłospisu na dzisiejszy dzień</p>
+                    <p>Proszę czekać<span class="dots">...</span></p>
+                </div>
+                <div class ="informacje-man" id = "info-man">
+                    <p>PPM, czyli podstawowa przemiana materii, to wskaźnik, który pozwala określić ilość energii niezbędną do podtrzymania podstawowych funkcji życiowych organizmu w stanie spoczynku i w optymalnych warunkach otoczenia, wyrażona w (kcal/dzień).</p>
+                    <p>CPM, czyli całkowita przmiana materii,To suma wszystkich wydatków energetycznych człowieka w ciągu doby przy uwzględnieniu aktywności fizycznej, wyrażona w (kcal/dzień). </p>
+                    <p>BMI, czyli wskaźnik masy ciała, jest miarą używaną do określenia, czy masa ciała danej osoby jest odpowiednia w stosunku do jej wzrostu. BMI oblicza się, dzieląc masę ciała (w kilogramach) przez kwadrat wzrostu (w metrach).</p>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+<!--<footer>Created by Łukasz Kubicki lukaszkubicki@autograf.pl</footer>-->
+<script src="/scripts/common.js"></script>
+</body>
+</html>
